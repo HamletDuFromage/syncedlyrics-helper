@@ -8,11 +8,11 @@ from colorlog import ColoredFormatter
 import syncedlyrics
 
 class Downloader:
-    def __init__(self, blacklisted_genres = []) -> None:
+    def __init__(self, blacklisted_genres = [], providers = ["Musixmatch", "Deezer", "Lrclib", "NeatEase", "Megalobiz", "Genius"]) -> None:
         self.f_unsuccessful_fetches = "unsuccessful_fetches.txt"
         self.unsuccessful_fetches = self.load_unsuccessful_fetches()
         self.blacklisted_genres = blacklisted_genres
-        self.lyrics_providers = ["Deezer", "Lrclib", "NeatEase"]
+        self.lyrics_providers = providers
 
     def load_unsuccessful_fetches(self):
         try:
@@ -66,9 +66,9 @@ class Downloader:
         return True
 
 class Crawler:
-    def __init__(self, path, blacklisted_genres) -> None:
+    def __init__(self, path, blacklisted_genres, providers) -> None:
         self.success_count = 0
-        self.downloader = Downloader(blacklisted_genres)
+        self.downloader = Downloader(blacklisted_genres, providers)
         self.recursive_download(Path(path))
 
     def recursive_download(self, path):
@@ -91,6 +91,7 @@ required = parser.add_argument_group('Required arguments')
 required.add_argument('-p', '--path', help='directory or filepath', required=True)
 optional = parser.add_argument_group('Optional arguments')
 optional.add_argument('-g', '--blacklisted_genres', nargs='+', help='blacklisted genres', required=False, default=[])
+optional.add_argument('-s', '--providers', nargs='+', help='lyrics providers', required=False, default=["Musixmatch", "Deezer", "Lrclib", "NeatEase", "Megalobiz", "Genius"])
 optional.add_argument('-l', '--log_level', help='log level (DEBUG, INFO, WARNING, ERROR)', required=False, default="INFO")
 args = parser.parse_args()
 
@@ -111,5 +112,5 @@ log = logging.getLogger('pythonConfig')
 log.setLevel(LOG_LEVEL)
 log.addHandler(stream)
 
-cr = Crawler(args.path, args.blacklisted_genres)
+cr = Crawler(args.path, args.blacklisted_genres, args.providers)
 print(f"🎷 Successfully downloaded {cr.success_count} .lrc files!")
