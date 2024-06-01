@@ -12,7 +12,7 @@ class Downloader:
         self.f_unsuccessful_fetches = "unsuccessful_fetches.txt"
         self.unsuccessful_fetches = self.load_unsuccessful_fetches()
         self.blacklisted_genres = blacklisted_genres
-        self.lyrics_providers = ["Deezer", "Lrclib", "NeatEase", "Megalobiz"]
+        self.lyrics_providers = ["Deezer", "Lrclib", "NeatEase"]
 
     def load_unsuccessful_fetches(self):
         try:
