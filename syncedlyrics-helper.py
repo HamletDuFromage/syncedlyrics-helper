@@ -49,7 +49,7 @@ class Downloader:
             return False
 
         title = tags.title
-        keywords = f"{title} {tags.artist}"
+        keywords = f"{title} {tags.artist.split(";")[0]}"
         if self.check_for_existing(keywords) or self.check_for_blacklisted_genre(tags):
             return False
 
