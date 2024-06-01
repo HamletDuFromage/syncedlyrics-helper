@@ -57,12 +57,12 @@ class Downloader:
         if lyrics.exists():
             log.info(f"{title} already has an associated lyrics file")
             return False
-        log.info(f"Fetching lyrics for {title} ({tags.genre})")
         lrc = syncedlyrics.search(keywords, allow_plain_format=False, save_path=str(lyrics.resolve()), enhanced=False, providers=self.lyrics_providers)
         if not lrc:
             log.error(f"Couldn't find lyrics for {title}")
             self.write_unsuccessful_fetches_to_disk(f"{title} {tags.artist}")
             return False
+        log.info(f"Downloaded lyrics for {title} ({tags.genre})")
         return True
 
 class Crawler:
