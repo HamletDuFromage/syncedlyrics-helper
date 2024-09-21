@@ -3,3 +3,4 @@ venv/
 *.text
 *.lrc
 *.flac
+unsuccessful_fetches.txt
